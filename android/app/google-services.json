@@ -12,7 +12,12 @@
           "package_name": "br.com.blacknoise.todo_list_provider"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "624509043090-6k50qpvm2e4l28tia21k3m4vs35fcmam.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBoHb0-qgyfvK-6IiHot4UiJiVG-K2lvhQ"
@@ -20,7 +25,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "624509043090-6k50qpvm2e4l28tia21k3m4vs35fcmam.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

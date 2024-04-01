@@ -1,3 +1,5 @@
 import 'package:flutter/material.dart';
 
-class LoginController extends ChangeNotifier {}
+class LoginController extends ChangeNotifier {
+  
+}
