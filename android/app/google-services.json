@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "624509043090",
+    "project_id": "todo-list-provider-718b7",
+    "storage_bucket": "todo-list-provider-718b7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:624509043090:android:4eea1b1b5910646127014b",
+        "android_client_info": {
+          "package_name": "br.com.blacknoise.todo_list_provider"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBoHb0-qgyfvK-6IiHot4UiJiVG-K2lvhQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
