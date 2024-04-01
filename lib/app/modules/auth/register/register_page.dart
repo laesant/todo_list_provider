@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_list_provider/app/core/ui/theme_extensions.dart';
@@ -22,19 +23,27 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   void initState() {
     super.initState();
-    context.read<RegisterController>().addListener(() {
-      var controller = context.read<RegisterController>();
-      var success = controller.success;
-      var error = controller.error;
-      if (success) {
-        Navigator.of(context).pop();
-      } else if (error != null && error.isNotEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(error),
-          backgroundColor: Colors.red,
-        ));
-      }
-    });
+    // DefaultListenerNotifier(changeNotifier: context.read<RegisterController>())
+    //     .listener(
+    //   context: context,
+    //   successCallback: (notifier, listenerInstance) {
+    //     listenerInstance.dispose();
+    //     Navigator.of(context).pop();
+    //   },
+    // );
+
+    context.read<RegisterController>().implementDefaultListenerNotifier(
+          context: context,
+          onSuccess: (notifier) {
+            Navigator.of(context).pop();
+          },
+          // Esse atributo é opcional
+          // onError: (notifier) {
+          //   if (kDebugMode) {
+          //     print('DEU RUIM!!!');
+          //   }
+          // },
+        );
   }
 
   @override
