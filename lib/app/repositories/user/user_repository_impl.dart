@@ -21,18 +21,9 @@ class UserRepositoryImpl implements UserRepository {
         print(e);
         print(s);
       }
-      if (e.code == 'email-already-exists') {
-        final loginTypes =
-            // ignore: deprecated_member_use
-            await _firebaseAuth.fetchSignInMethodsForEmail(email);
-        if (loginTypes.contains('password')) {
-          throw AuthException(
-              message: 'E-mail já utilizado, por favor escolha outro e-mail');
-        } else {
-          throw AuthException(
-              message:
-                  'Você se cadastrou no TodoList pelo Google, por favor utilize ele para entrar!');
-        }
+      if (e.code == 'email-already-in-use') {
+        throw AuthException(
+            message: 'E-mail já utilizado, por favor escolha outro e-mail');
       } else {
         throw AuthException(message: e.message ?? 'Erro ao registrar usuário');
       }
