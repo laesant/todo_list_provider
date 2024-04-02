@@ -54,4 +54,23 @@ class UserRepositoryImpl implements UserRepository {
       throw AuthException(message: e.message ?? 'Erro ao relizar login!');
     }
   }
+
+  @override
+  Future<void> forgotPassword(String email) async {
+    try {
+      await _firebaseAuth.sendPasswordResetEmail(email: email);
+    } on PlatformException catch (e, s) {
+      if (kDebugMode) {
+        print(e);
+        print(s);
+      }
+      throw AuthException(message: 'Erro ao resetar senha');
+    } on FirebaseAuthException catch (e, s) {
+      if (kDebugMode) {
+        print(e);
+        print(s);
+      }
+      throw AuthException(message: 'Erro ao resetar senha');
+    }
+  }
 }

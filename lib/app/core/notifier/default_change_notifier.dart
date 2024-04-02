@@ -27,13 +27,18 @@ class DefaultChangeNotifier extends ChangeNotifier {
     _success = false;
   }
 
-  /// Quando o parametro [success] for igual a [true], a função [onSuccess] será executada
+  /// Quando o parametro [success] for igual a [true], a função [onSuccess] será executada.
+  /// [alwaysRun] sempre que for DIFERENTE de [null] será executado antes de tudo.
   void implementDefaultListenerNotifier({
     required BuildContext context,
     required SuccessVoidCallback onSuccess,
     ErrorVoidCallback? onError,
+    EverVoidCallback? alwaysRun,
   }) {
     addListener(() {
+      if(alwaysRun != null){
+        alwaysRun(this);
+      }
       if (loading) {
         Loader.show(context);
       } else {
@@ -56,5 +61,8 @@ typedef SuccessVoidCallback = void Function(
   DefaultChangeNotifier notifier,
 );
 typedef ErrorVoidCallback = void Function(
+  DefaultChangeNotifier notifier,
+);
+typedef EverVoidCallback = void Function(
   DefaultChangeNotifier notifier,
 );

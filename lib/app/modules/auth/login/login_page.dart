@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_list_provider/app/core/ui/messages.dart';
 import 'package:todo_list_provider/app/core/widgets/todo_list_field.dart';
 import 'package:todo_list_provider/app/core/widgets/todo_list_logo.dart';
 import 'package:todo_list_provider/app/modules/auth/login/login_controller.dart';
@@ -15,6 +16,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final _emailFocusNode = FocusNode();
   final _emailEC = TextEditingController();
   final _passwordEC = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -23,6 +25,13 @@ class _LoginPageState extends State<LoginPage> {
     super.initState();
     context.read<LoginController>().implementDefaultListenerNotifier(
           context: context,
+          alwaysRun: (notifier) {
+            if (notifier is LoginController) {
+              if (notifier.hasInfo) {
+                Messages.of(context).showInfo(notifier.infoMessage!);
+              }
+            }
+          },
           onSuccess: (notifier) {
             print('Login efetuado com sucesso!');
           },
@@ -33,7 +42,24 @@ class _LoginPageState extends State<LoginPage> {
   void dispose() {
     _emailEC.dispose();
     _passwordEC.dispose();
+    _emailFocusNode.dispose();
     super.dispose();
+  }
+
+  void login() {
+    final isValid = _formKey.currentState?.validate() ?? false;
+    if (isValid) {
+      context.read<LoginController>().login(_emailEC.text, _passwordEC.text);
+    }
+  }
+
+  void forgotPassword() {
+    if (_emailEC.text.isNotEmpty) {
+      context.read<LoginController>().forgotPassword(_emailEC.text);
+    } else {
+      _emailFocusNode.requestFocus();
+      Messages.of(context).showError('Digite um e-mail para recuperar a senha');
+    }
   }
 
   @override
@@ -62,6 +88,7 @@ class _LoginPageState extends State<LoginPage> {
                           TodoListField(
                             label: 'Email',
                             controller: _emailEC,
+                            focusNode: _emailFocusNode,
                             validator: Validatorless.multiple([
                               Validatorless.required('E-mail obrigatório'),
                               Validatorless.email('E-mail inválido'),
@@ -83,20 +110,11 @@ class _LoginPageState extends State<LoginPage> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               TextButton(
-                                onPressed: () {},
+                                onPressed: forgotPassword,
                                 child: const Text('Esqueceu sua senha?'),
                               ),
                               ElevatedButton(
-                                onPressed: () {
-                                  final isValid =
-                                      _formKey.currentState?.validate() ??
-                                          false;
-                                  if (isValid) {
-                                    context
-                                        .read<LoginController>()
-                                        .login(_emailEC.text, _passwordEC.text);
-                                  }
-                                },
+                                onPressed: login,
                                 child: const Padding(
                                   padding: EdgeInsets.all(12),
                                   child: Text('Login'),
@@ -137,9 +155,8 @@ class _LoginPageState extends State<LoginPage> {
                           children: [
                             const Text('Não tem conta?'),
                             TextButton(
-                                onPressed: () {
-                                  Navigator.of(context).pushNamed('/register');
-                                },
+                                onPressed: () => Navigator.of(context)
+                                    .pushNamed('/register'),
                                 child: const Text('Cadastre-se'))
                           ],
                         )
