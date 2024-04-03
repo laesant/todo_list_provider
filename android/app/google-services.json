@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "624509043090-1peeuqar1i5pu00afc9rvjrai6anlh82.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.blacknoise.todo_list_provider",
+            "certificate_hash": "e6d3cfea17c587cd5268135307240cdff9288dbe"
+          }
+        },
+        {
           "client_id": "624509043090-6k50qpvm2e4l28tia21k3m4vs35fcmam.apps.googleusercontent.com",
           "client_type": 3
         }
