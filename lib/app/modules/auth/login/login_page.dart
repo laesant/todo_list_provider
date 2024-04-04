@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
@@ -33,7 +34,9 @@ class _LoginPageState extends State<LoginPage> {
             }
           },
           onSuccess: (notifier) {
-            print('Login efetuado com sucesso!');
+            if (kDebugMode) {
+              print('Login efetuado com sucesso!');
+            }
           },
         );
   }
