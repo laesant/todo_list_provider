@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_list_provider/app/models/task_model.dart';
+import 'package:todo_list_provider/app/modules/home/home_controller.dart';
 
 class Task extends StatelessWidget {
   const Task({super.key, required this.task});
@@ -19,9 +21,11 @@ class Task extends StatelessWidget {
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
               side: const BorderSide(width: 1)),
-          leading: Checkbox(onChanged: (value) {
-            
-          }, value: task.finished),
+          leading: Checkbox(
+              onChanged: (_) {
+                context.read<HomeController>().checkOrUnchenckTask(task);
+              },
+              value: task.finished),
           title: Text(
             task.description,
             style: TextStyle(
