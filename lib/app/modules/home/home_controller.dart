@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:todo_list_provider/app/core/notifier/default_change_notifier.dart';
 import 'package:todo_list_provider/app/models/task_filter_enum.dart';
 import 'package:todo_list_provider/app/models/task_model.dart';
@@ -69,8 +70,14 @@ class HomeController extends DefaultChangeNotifier {
     allTasks = tasks;
     filteredTasks = tasks;
 
-    if (filter == TaskFilter.week && initialDateOfWeek != null) {
-      filterByDay(initialDateOfWeek!);
+    if (filter == TaskFilter.week) {
+      if (selectedDay != null) {
+        filterByDay(selectedDay!);
+      } else if (initialDateOfWeek != null) {
+        filterByDay(initialDateOfWeek!);
+      }
+    } else {
+      selectedDay = null;
     }
 
     hideLoading();
@@ -79,7 +86,9 @@ class HomeController extends DefaultChangeNotifier {
 
   void filterByDay(DateTime date) {
     selectedDay = date;
-    filteredTasks = allTasks.where((task) => task.dateTime == date).toList();
+    filteredTasks = allTasks
+        .where((task) => DateUtils.isSameDay(task.dateTime, date))
+        .toList();
     notifyListeners();
   }
 
