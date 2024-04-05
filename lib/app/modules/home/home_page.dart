@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_list_provider/app/core/ui/theme_extensions.dart';
+import 'package:todo_list_provider/app/models/task_filter_enum.dart';
 import 'package:todo_list_provider/app/modules/home/home_controller.dart';
 import 'package:todo_list_provider/app/modules/home/widgets/home_drawer.dart';
 import 'package:todo_list_provider/app/modules/home/widgets/home_filters.dart';
@@ -20,12 +22,17 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    widget._homeController.loadTotalTasks();
+    widget._homeController.implementDefaultListenerNotifier(
+        context: context, onSuccess: (notifier) {});
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      widget._homeController.loadTotalTasks();
+      widget._homeController.findTasks(filter: TaskFilter.today);
+    });
   }
 
-  void _goToCreateTask(BuildContext context) {
+  Future<void> _goToCreateTask(BuildContext context) async {
     //  Navigator.of(context).pushNamed('/task/create');
-    Navigator.of(context).push(PageRouteBuilder(
+    await Navigator.of(context).push(PageRouteBuilder(
       fullscreenDialog: true,
       transitionDuration: const Duration(milliseconds: 400),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
@@ -41,6 +48,7 @@ class _HomePageState extends State<HomePage> {
         return TasksModule().getPage('/task/create', context);
       },
     ));
+    widget._homeController.refreshPage();
   }
 
   @override
