@@ -22,20 +22,10 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   void initState() {
     super.initState();
-    // DefaultListenerNotifier(changeNotifier: context.read<RegisterController>())
-    //     .listener(
-    //   context: context,
-    //   successCallback: (notifier, listenerInstance) {
-    //     listenerInstance.dispose();
-    //     Navigator.of(context).pop();
-    //   },
-    // );
 
     context.read<RegisterController>().implementDefaultListenerNotifier(
           context: context,
-          onSuccess: (notifier) {
-            Navigator.of(context).pop();
-          },
+          onSuccess: (notifier) {},
           // Esse atributo é opcional
           // onError: (notifier) {
           //   if (kDebugMode) {
